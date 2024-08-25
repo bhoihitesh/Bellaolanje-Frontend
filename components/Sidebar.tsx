@@ -12,7 +12,7 @@ import {
 import type { MenuProps } from "antd";
 import { Button, Menu } from "antd";
 import Topbar from "./Topbar";
-import styles from "./sidebar.module.css";
+import styles from "../styles/sidebar.module.css";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -56,7 +56,7 @@ const Sidebar: React.FC = () => {
     setCollapsed(!collapsed);
   };
   return (
-    <div className="sidebar_main">
+    <div className="sidebar_main" style={{flex:'0 0 auto'}}>
       <div className="topbar_container">
         <Topbar />
       </div>

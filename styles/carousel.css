@@ -1,0 +1,15 @@
+:where(.css-dev-only-do-not-override-d2lrxs).ant-carousel .slick-list .slick-slide >div>div{
+    background-color: black;
+    color: white;
+}
+.image-container{
+    position: relative;
+}
+.btn-grp{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    position: absolute;
+    top: 50%;
+}

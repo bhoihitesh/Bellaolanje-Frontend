@@ -20,7 +20,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Sidebar/>
-        {children}</body>
+        <AntdRegistry>
+        {children}
+        </AntdRegistry>
+      </body>
     </html>
   );
 }

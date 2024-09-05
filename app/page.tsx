@@ -1,6 +1,7 @@
+'use client';
 export default function Home() {
   return (
-    <div style={{flexFlow:'1', width:'100%', padding: '0px',background:'blue'}}>
+    <div>
       <h1>hitesh</h1>
     </div>
   );

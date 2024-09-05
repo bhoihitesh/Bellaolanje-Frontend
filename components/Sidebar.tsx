@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppstoreOutlined,
   ContainerOutlined,
@@ -13,7 +13,10 @@ import type { MenuProps } from "antd";
 import { Button, Menu } from "antd";
 import Topbar from "./Topbar";
 import styles from "../styles/sidebar.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { openSidebar, closeSidebar } from "@/redux/indexReducer";
 
+// sidebar menu items
 type MenuItem = Required<MenuProps>["items"][number];
 
 const items: MenuItem[] = [
@@ -52,23 +55,32 @@ const items: MenuItem[] = [
 const Sidebar: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
 
+  let sidebarWidth = useSelector((state: any) => state.index.value);
+  const dispatch = useDispatch();
+
+  // call dispatch on collapsed state change
+  useEffect(() => {
+    collapsed ? dispatch(closeSidebar()) : dispatch(openSidebar());
+    console.warn({ sidebarWidth });
+  }, [collapsed]);
+  // track sidebar toggle change
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
   return (
-    <div className="sidebar_main" style={{flex:'0 0 auto'}}>
+    <div className="sidebar_main" style={{ flex: "0 0 auto" }}>
       <div className="topbar_container">
         <Topbar />
       </div>
       <div
         className="sidebar_container"
-        style={{ width: 256, height: "100vh", position: "fixed", top: '18px' }}
+        style={{ width: 256, height: "100vh", position: "fixed", top: "18px" }}
       >
         <Button
           type="primary"
           onClick={toggleCollapsed}
           style={{
-            margin:'0px 0px 13px 15px',
+            margin: "0px 0px 13px 15px",
             backgroundColor: "#000",
           }}
         >

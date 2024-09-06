@@ -13,15 +13,15 @@ import type { MenuProps } from "antd";
 import { Button, Menu } from "antd";
 import Topbar from "./Topbar";
 import styles from "../styles/sidebar.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { openSidebar, closeSidebar } from "@/redux/indexReducer";
 
 // sidebar menu items
 type MenuItem = Required<MenuProps>["items"][number];
 
 const items: MenuItem[] = [
-  { key: "1", icon: <PieChartOutlined />, label: "Option 1" },
-  { key: "2", icon: <DesktopOutlined />, label: "Option 2" },
+  { key: "1", icon: <PieChartOutlined />, label: "Dashboard", url: '/dashboard' },
+  { key: "2", icon: <DesktopOutlined />, label: "Products" },
   { key: "3", icon: <ContainerOutlined />, label: "Option 3" },
   {
     key: "sub1",
@@ -52,19 +52,22 @@ const items: MenuItem[] = [
     ],
   },
 ];
+
 const Sidebar: React.FC = () => {
+  // track sidebar open or close
   const [collapsed, setCollapsed] = useState(false);
 
-  let sidebarWidth = useSelector((state: any) => state.index.value);
+  // dispacth redux store
   const dispatch = useDispatch();
 
   // call dispatch on collapsed state change
   useEffect(() => {
     collapsed ? dispatch(closeSidebar()) : dispatch(openSidebar());
-    console.warn({ sidebarWidth });
   }, [collapsed]);
+
   // track sidebar toggle change
   const toggleCollapsed = () => {
+    // toggle sidebar state
     setCollapsed(!collapsed);
   };
   return (

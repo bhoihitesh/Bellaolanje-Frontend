@@ -2,6 +2,14 @@
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
+}
+/* sidebar built-in css customization */
+/* Override the background color for the selected (active) menu item */
+.ant-menu-light .ant-menu-item-selected {
+  color: #333 !important;
+}
 
-  
+/* Optionally, you can also change the text color */
+.ant-menu-submenu-title {
+  color: #333 !important;
 }

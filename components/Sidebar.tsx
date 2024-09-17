@@ -1,56 +1,38 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import {
-  AppstoreOutlined,
-  ContainerOutlined,
   DesktopOutlined,
-  MailOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   PieChartOutlined,
 } from "@ant-design/icons";
-import type { MenuProps } from "antd";
 import { Button, Menu } from "antd";
 import Topbar from "./Topbar";
 import styles from "../styles/sidebar.module.css";
 import { useDispatch } from "react-redux";
 import { openSidebar, closeSidebar } from "@/redux/indexReducer";
+import { useRouter } from "next/navigation";
 
 // sidebar menu items
-type MenuItem = Required<MenuProps>["items"][number];
-
-const items: MenuItem[] = [
-  { key: "1", icon: <PieChartOutlined />, label: "Dashboard", url: '/dashboard' },
-  { key: "2", icon: <DesktopOutlined />, label: "Products" },
-  { key: "3", icon: <ContainerOutlined />, label: "Option 3" },
+const items = [
+  { key: "1", icon: <PieChartOutlined />, label: "dashboard", route: "/" },
   {
-    key: "sub1",
-    label: "Navigation One",
-    icon: <MailOutlined />,
-    children: [
-      { key: "5", label: "Option 5" },
-      { key: "6", label: "Option 6" },
-      { key: "7", label: "Option 7" },
-      { key: "8", label: "Option 8" },
-    ],
+    key: "2",
+    icon: <DesktopOutlined />,
+    label: "Products",
+    route: "/products",
   },
-  {
-    key: "sub2",
-    label: "Navigation Two",
-    icon: <AppstoreOutlined />,
-    children: [
-      { key: "9", label: "Option 9" },
-      { key: "10", label: "Option 10" },
-      {
-        key: "sub3",
-        label: "Submenu",
-        children: [
-          { key: "11", label: "Option 11" },
-          { key: "12", label: "Option 12" },
-        ],
-      },
-    ],
-  },
+  // {
+  //   key: "sub1",
+  //   label: "Navigation One",
+  //   icon: <MailOutlined />,
+  //   children: [
+  //     { key: "5", label: "Option 5", route: "/option5" },
+  //     { key: "6", label: "Option 6", route: "/option6" },
+  //     { key: "7", label: "Option 7", route: "/option7" },
+  //     { key: "8", label: "Option 8", route: "/option8" },
+  //   ],
+  // }
 ];
 
 const Sidebar: React.FC = () => {
@@ -69,6 +51,34 @@ const Sidebar: React.FC = () => {
   const toggleCollapsed = () => {
     // toggle sidebar state
     setCollapsed(!collapsed);
+  };
+
+  // sidebar menu items navigation
+  const router = useRouter();
+
+  // Helper function to recursively find the item by key
+  const findItemByKey: any = (items: any, key: number) => {
+    for (const item of items) {
+      if (item.key === key) {
+        return item;
+      }
+      if (item.children) {
+        const found = findItemByKey(item.children, key);
+        if (found) {
+          return found;
+        }
+      }
+    }
+    return null;
+  };
+  const handleNavigate = (item: any) => {
+    // Find the clicked item in the items array
+    const selectedItem = findItemByKey(items, item.key);
+    console.log("selectedItem", selectedItem);
+    // Navigate to the corresponding route
+    if (selectedItem && selectedItem.route) {
+      router.push(selectedItem.route);
+    }
   };
   return (
     <div className="sidebar_main" style={{ flex: "0 0 auto" }}>
@@ -97,6 +107,7 @@ const Sidebar: React.FC = () => {
           items={items}
           className={`${styles.custom_menu}`}
           style={{ height: "100vh" }}
+          onClick={handleNavigate}
         />
       </div>
     </div>
